@@ -1,0 +1,9 @@
+{
+    "token_file": "/path/to/your/foundry_token.txt",
+    "host": "https://your-instance.palantirfoundry.com",
+    "agent_rid": "ri.aip-agents..agent.your-agent-rid-here",
+    "ontology_api": "your-ontology-api-name",
+    "memory_type": "YourMemoryObjectType",
+    "create_action": "your-create-action-name",
+    "delete_action": "your-delete-action-name"
+}
