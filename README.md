@@ -187,6 +187,12 @@ This is required for any Python script that prints Foundry API output on Windows
 - Palantir Foundry instance with AIP Agents enabled
 - Valid Foundry bearer token with appropriate permissions
 
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
 ## License
 
-MIT
+This project is licensed under the [MIT License](LICENSE).
+
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in Foundry Bridge by you shall be licensed as MIT, without any additional terms or conditions.
