@@ -31,6 +31,7 @@ CONFIGURATION:
     FOUNDRY_DELETE_ACTION - Delete memory action API name
 
 USAGE:
+  python foundry_bridge.py --connect                    (quick connectivity check)
   python foundry_bridge.py --create "Memory content here"
   python foundry_bridge.py --create "Memory content" --sender "My Agent"
   python foundry_bridge.py --list
@@ -244,6 +245,49 @@ def delete_memory(primary_key):
         print(resp.text[:500])
         return False
 
+def connect():
+    """Test connectivity to Foundry and verify credentials.
+
+    Lightweight check — just authenticates and confirms the ontology is reachable.
+    Use --status for a full summary of object types, actions, and memory counts.
+    """
+    headers = get_headers()
+    if not headers:
+        return False
+
+    dtg = get_dtg()
+    print("=" * 70)
+    print(f"FOUNDRY BRIDGE -- CONNECT -- {dtg}")
+    print("=" * 70)
+    print(f"  Host:     {CONFIG['host']}")
+    print(f"  Ontology: {CONFIG['ontology_api']}")
+
+    resp = requests.get(
+        f'{CONFIG["host"]}/api/v2/ontologies/{CONFIG["ontology_api"]}',
+        headers=headers
+    )
+    if resp.status_code == 200:
+        ont = resp.json()
+        print(f"  Status:   CONNECTED")
+        print(f"  Display:  {ont.get('displayName', 'N/A')}")
+        print(f"  RID:      {ont.get('rid', 'N/A')}")
+        print("=" * 70)
+        print("CONNECTED")
+        print("=" * 70)
+        return True
+    else:
+        print(f"  Status:   FAILED ({resp.status_code})")
+        if resp.status_code in (401, 403):
+            print("  Check: Token may be expired or lack Ontology permissions")
+        elif resp.status_code == 404:
+            print("  Check: Host URL or ontology API name may be incorrect")
+        else:
+            print(f"  Response: {resp.text[:200]}")
+        print("=" * 70)
+        print("NOT CONNECTED")
+        print("=" * 70)
+        return False
+
 def get_status():
     """Get connection status and ontology summary."""
     headers = get_headers()
@@ -321,19 +365,25 @@ def main():
 
     if len(sys.argv) < 2:
         print("\nUsage:")
-        print('  python foundry_bridge.py --status                     Connection status')
+        print('  python foundry_bridge.py --connect                    Quick connectivity check')
+        print('  python foundry_bridge.py --status                     Full connection status')
         print('  python foundry_bridge.py --list                       List all memories')
         print('  python foundry_bridge.py --search "keyword"           Search memories')
         print('  python foundry_bridge.py --create "content"           Create memory')
         print('  python foundry_bridge.py --create "content" --sender "Name"  With sender')
         print('  python foundry_bridge.py --delete <primaryKey>        Delete memory')
         print("\nExamples:")
+        print('  python foundry_bridge.py --connect')
         print('  python foundry_bridge.py --create "Important project milestone reached"')
         print('  python foundry_bridge.py --search "project"')
         print('  python foundry_bridge.py --status')
         return 1
 
     cmd = sys.argv[1]
+
+    if cmd == '--connect':
+        result = connect()
+        return 0 if result else 1
 
     if cmd == '--status':
         get_status()

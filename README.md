@@ -76,8 +76,8 @@ export FOUNDRY_AGENT_RID="ri.aip-agents..agent.xxx"
 ### 3. Test Connection
 
 ```bash
-python foundry_agent.py --status
-python foundry_bridge.py --status
+python foundry_agent.py --connect
+python foundry_bridge.py --connect
 ```
 
 ### 4. Use
@@ -91,6 +91,10 @@ python foundry_agent.py --stream "Summarize the current state of everything"
 
 # Interactive multi-turn chat
 python foundry_agent.py --interactive
+
+# Quick connectivity check
+python foundry_agent.py --connect
+python foundry_bridge.py --connect
 
 # Create a memory object
 python foundry_bridge.py --create "Important milestone: v1.0 deployed"

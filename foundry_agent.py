@@ -36,6 +36,7 @@ CONFIGURATION:
     FOUNDRY_AGENT_RID   - Agent RID (ri.aip-agents..agent.xxx)
 
 USAGE:
+  python foundry_agent.py --connect                                 (quick connectivity check)
   python foundry_agent.py --talk "message"                          (blocking)
   python foundry_agent.py --stream "message"                        (streaming, real-time)
   python foundry_agent.py --talk "message" --session <sessionRid>   (continue session)
@@ -262,6 +263,45 @@ def list_sessions():
         print(resp.text[:500])
         return None
 
+def connect():
+    """Test connectivity to the AIP Agent and verify credentials.
+
+    Lightweight check — just authenticates and confirms the agent is reachable.
+    Use --status for a full summary including session history.
+    """
+    headers = get_headers()
+    if not headers:
+        return False
+
+    dtg = get_dtg()
+    print("=" * 70)
+    print(f"FOUNDRY AGENT -- CONNECT -- {dtg}")
+    print("=" * 70)
+    print(f"  Host:      {CONFIG['host']}")
+    print(f"  Agent RID: {CONFIG['agent_rid'][:60]}...")
+
+    url = f'{get_api_base()}/sessions'
+    params = {'preview': 'true'}
+    resp = requests.get(url, headers=headers, params=params)
+    if resp.status_code == 200:
+        print(f"  Status:    CONNECTED")
+        print("=" * 70)
+        print("CONNECTED")
+        print("=" * 70)
+        return True
+    else:
+        print(f"  Status:    FAILED ({resp.status_code})")
+        if resp.status_code in (401, 403):
+            print("  Check: Token may be expired or lack AIP Agent permissions")
+        elif resp.status_code == 404:
+            print("  Check: Agent RID may be incorrect, or AIP Agents API not enabled")
+        else:
+            print(f"  Response: {resp.text[:200]}")
+        print("=" * 70)
+        print("NOT CONNECTED")
+        print("=" * 70)
+        return False
+
 def get_status():
     """Check connection to AIP Agent."""
     headers = get_headers()
@@ -451,7 +491,8 @@ def main():
 
     if len(sys.argv) < 2:
         print("\nUsage:")
-        print('  python foundry_agent.py --status                           Connection check')
+        print('  python foundry_agent.py --connect                          Quick connectivity check')
+        print('  python foundry_agent.py --status                           Full connection status')
         print('  python foundry_agent.py --sessions                         List sessions')
         print('  python foundry_agent.py --talk "message"                   Send message (blocking)')
         print('  python foundry_agent.py --stream "message"                 Send message (streaming)')
@@ -459,12 +500,17 @@ def main():
         print('  python foundry_agent.py --stream "message" --session <rid> Stream, continue session')
         print('  python foundry_agent.py --interactive                      Multi-turn chat')
         print("\nExamples:")
+        print('  python foundry_agent.py --connect')
         print('  python foundry_agent.py --talk "What do you remember about this project?"')
         print('  python foundry_agent.py --stream "Summarize the current enterprise state"')
         print('  python foundry_agent.py --interactive')
         return 1
 
     cmd = sys.argv[1]
+
+    if cmd == '--connect':
+        result = connect()
+        return 0 if result else 1
 
     if cmd == '--status':
         get_status()
