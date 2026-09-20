@@ -49,7 +49,7 @@ Launches `foundry_mcp_server.py` as a subprocess, discovers its tools, and runs 
 
 - **Single task**: Give Claude a natural-language task — it calls the tools and returns the result
 - **Interactive mode**: Multi-turn conversation backed by Foundry tools
-- **Configurable model**: Set `ANTHROPIC_MODEL` env var (default: `claude-opus-4-5`)
+- **Configurable model**: Set `ANTHROPIC_MODEL` env var (default: `claude-opus-4-0`)
 
 ## Architecture
 
@@ -106,7 +106,7 @@ export FOUNDRY_AGENT_RID="ri.aip-agents..agent.xxx"
 
 # For claude_agent.py:
 export ANTHROPIC_API_KEY="sk-ant-..."
-export ANTHROPIC_MODEL="claude-opus-4-5"   # optional, this is the default
+export ANTHROPIC_MODEL="claude-opus-4-0"   # optional, this is the default
 ```
 
 ### 3. Test Connection
@@ -196,7 +196,7 @@ This is required for any Python script that prints Foundry API output on Windows
 | `FOUNDRY_CREATE_ACTION` | `create_action` | foundry_bridge.py, foundry_mcp_server.py, claude_agent.py |
 | `FOUNDRY_DELETE_ACTION` | `delete_action` | foundry_bridge.py, foundry_mcp_server.py, claude_agent.py |
 | `ANTHROPIC_API_KEY` | - | claude_agent.py |
-| `ANTHROPIC_MODEL` | - | claude_agent.py (default: `claude-opus-4-5`) |
+| `ANTHROPIC_MODEL` | - | claude_agent.py (default: `claude-opus-4-0`) |
 
 ## API Reference
 

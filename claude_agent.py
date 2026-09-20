@@ -41,7 +41,7 @@ if sys.stderr and hasattr(sys.stderr, 'buffer'):
 
 # === CONFIGURATION ===
 ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
-MODEL = os.environ.get('ANTHROPIC_MODEL', 'claude-opus-4-5')
+MODEL = os.environ.get('ANTHROPIC_MODEL', 'claude-opus-4-0')
 MCP_SERVER_SCRIPT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'foundry_mcp_server.py')
 MAX_ITERATIONS = 20  # Safety cap on the agentic loop
 
@@ -170,7 +170,7 @@ async def run_agent(task: str, verbose: bool = True) -> str:
                 if verbose:
                     print(f'  [Warning] Reached max iterations ({MAX_ITERATIONS})')
 
-            return final_response
+            return final_response or 'Agent completed without producing a text response.'
 
 
 # === ASYNC RUNNER ===
