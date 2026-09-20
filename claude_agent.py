@@ -122,10 +122,10 @@ async def run_agent(task: str, verbose: bool = True) -> str:
                     messages=messages,
                 )
 
-                # Collect text from this response
+                # Collect text from this response; accumulate across iterations
                 text_parts = [b.text for b in response.content if b.type == 'text']
                 if text_parts:
-                    final_response = '\n'.join(text_parts)
+                    final_response += ('\n' if final_response else '') + '\n'.join(text_parts)
 
                 # End of agentic loop — Claude is done
                 if response.stop_reason == 'end_turn':
@@ -149,7 +149,8 @@ async def run_agent(task: str, verbose: bool = True) -> str:
 
                     try:
                         result = await session.call_tool(tool_use.name, tool_use.input)
-                        content = result.content[0].text if result.content else ''
+                        first = result.content[0] if result.content else None
+                        content = first.text if (first and first.type == 'text') else ''
                     except Exception as exc:
                         content = json.dumps({'error': str(exc)})
 
