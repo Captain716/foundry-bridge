@@ -91,7 +91,7 @@ def _headers() -> dict | None:
     token = _get_token()
     if not token:
         return None
-    return {'Authorization': f'******', 'Content-Type': 'application/json'}
+    return {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
 
 
 # === MCP SERVER ===

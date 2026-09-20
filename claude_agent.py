@@ -22,6 +22,7 @@ CONFIGURATION:
 LICENSE: MIT
 """
 
+import asyncio
 import io
 import json
 import os
@@ -80,7 +81,7 @@ async def run_agent(task: str, verbose: bool = True) -> str:
     if not ANTHROPIC_API_KEY:
         return 'ERROR: ANTHROPIC_API_KEY environment variable is not set.'
 
-    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
 
     server_params = StdioServerParameters(
         command=sys.executable,
@@ -113,7 +114,7 @@ async def run_agent(task: str, verbose: bool = True) -> str:
                 if verbose:
                     print(f'  [Iteration {iteration + 1}] Calling Claude...')
 
-                response = client.messages.create(
+                response = await client.messages.create(
                     model=MODEL,
                     max_tokens=4096,
                     system=system_prompt,
@@ -172,9 +173,6 @@ async def run_agent(task: str, verbose: bool = True) -> str:
 
 
 # === ASYNC RUNNER ===
-import asyncio
-
-
 def run(task: str, verbose: bool = True) -> str:
     """Synchronous wrapper around the async agentic loop."""
     return asyncio.run(run_agent(task, verbose=verbose))
