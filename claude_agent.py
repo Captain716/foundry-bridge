@@ -133,7 +133,16 @@ async def run_agent(task: str, verbose: bool = True) -> str:
                         print(f'  [Done — {iteration + 1} iteration(s)]')
                     break
 
-                # Process tool calls
+                # Process tool calls (expected stop reason: 'tool_use')
+                if response.stop_reason != 'tool_use':
+                    if verbose:
+                        print(f'  [Warning] Unexpected stop reason: {response.stop_reason}')
+                    final_response += (
+                        ('\n' if final_response else '')
+                        + f'[Agent stopped: {response.stop_reason}]'
+                    )
+                    break
+
                 tool_uses = [b for b in response.content if b.type == 'tool_use']
                 if not tool_uses:
                     break

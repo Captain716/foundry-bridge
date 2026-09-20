@@ -94,6 +94,9 @@ def _headers() -> dict | None:
     return {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
 
 
+# === CONSTANTS ===
+STATUS_MAX_MEMORIES = 200  # Maximum memories fetched by foundry_status for the count display
+
 # === MCP SERVER ===
 mcp = FastMCP(
     name='foundry-bridge',
@@ -242,7 +245,7 @@ def foundry_status() -> str:
     mem_resp = requests.get(
         f'{_api_base()}/objects/{CONFIG["memory_type"]}',
         headers=headers,
-        params={'pageSize': 200},
+        params={'pageSize': STATUS_MAX_MEMORIES},
     )
     if mem_resp.status_code == 200:
         memories = mem_resp.json().get('data', [])
