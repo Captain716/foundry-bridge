@@ -1,0 +1,94 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Foundry Bridge — Status",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/foundry_bridge.py",
+            "args": ["--status"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Foundry Bridge — List Memories",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/foundry_bridge.py",
+            "args": ["--list"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Foundry Bridge — Create Memory",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/foundry_bridge.py",
+            "args": ["--create", "Test memory from VS Code debugger"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Foundry Agent — Status",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/foundry_agent.py",
+            "args": ["--status"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Foundry Agent — Interactive",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/foundry_agent.py",
+            "args": ["--interactive"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "MCP Server (stdio)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/foundry_mcp_server.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Claude Agent — Status",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/claude_agent.py",
+            "args": ["--status"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Claude Agent — Interactive",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/claude_agent.py",
+            "args": ["--interactive"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Claude Agent — Task",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/claude_agent.py",
+            "args": ["--task", "List my 5 most recent memories and summarise them"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

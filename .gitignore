@@ -19,8 +19,10 @@ venv/
 env/
 
 # IDE
-.vscode/
 .idea/
+
+# Environment variables (credentials — never commit)
+.env
 *.swp
 *.swo
 
